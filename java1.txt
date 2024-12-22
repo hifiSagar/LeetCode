@@ -1,0 +1,50 @@
+import java.util.HashSet;
+import java.util.ArrayList;
+
+class Solution {
+    public int[] intersection(int[] num1, int[] num2) {
+        HashSet<Integer> set = new HashSet<>();
+        
+        // Add elements from nums2 to the set
+        for (int n2 : num2) {
+            set.add(n2);
+        }
+
+        // List to store intersection results
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        // Check for intersection with num1
+        for (int n1 : num1) {
+            if (set.contains(n1)) {
+                list.add(n1);  // Add the number if it's in the set
+                set.remove(n1); // Remove the number to avoid duplicates in the result
+            }
+        }
+        
+        // Convert the list to an array
+        int[] res = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            res[i] = list.get(i);
+        }
+        
+        return res;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] num1 = {1, 2, 2, 1};
+        int[] num2 = {2, 2};
+        int[] result = solution.intersection(num1, num2);
+        
+        // Print the result
+        System.out.print("[");
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i]);
+            if (i < result.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+}
+
