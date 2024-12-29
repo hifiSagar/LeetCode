@@ -1,0 +1,37 @@
+
+//Validate Stack Sequences
+
+public class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        // Stack to simulate the stack behavior
+        Stack<Integer> stack = new Stack<>();
+        
+        // Pointer for the popped array
+        int popIndex = 0;
+        
+        // Iterate through the pushed array
+        for (int val : pushed) {
+            // Push the current element onto the stack
+            stack.push(val);
+            
+            // While the stack is not empty and the top of the stack matches the next element in popped
+            while (!stack.isEmpty() && stack.peek() == popped[popIndex]) {
+                stack.pop();   // Pop the top element
+                popIndex++;    // Move to the next element in popped
+            }
+        }
+        
+        // If we have processed all elements of popped, the sequence is valid
+        return popIndex == popped.length;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        
+        // Test case
+        int[] pushed = {1, 2, 3, 4, 5};
+        int[] popped = {4, 5, 3, 2, 1};
+        
+        System.out.println(solution.validateStackSequences(pushed, popped)); // Output: true
+    }
+}
