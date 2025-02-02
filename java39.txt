@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+double findMedianSortedArrays(int* nums1, int n, int* nums2, int m) {
+    int i = 0;  // Pointer for nums1
+    int j = 0;  // Pointer for nums2
+    int k = 0;  // Pointer for merged array
+    int max = n + m;
+    int median_pos = max / 2;  // Position of the median element
+    
+    int *merged_array = malloc(sizeof(int) * max);  // Array to store merged result
+
+    // Merge both arrays until we reach the median position
+    while (i < n || j < m) {
+        if (i == n) {
+            merged_array[k++] = nums2[j++];
+        } else if (j == m) {
+            merged_array[k++] = nums1[i++];
+        } else if (nums1[i] < nums2[j]) {
+            merged_array[k++] = nums1[i++];
+        } else {
+            merged_array[k++] = nums2[j++];
+        }
+
+        // We stop once we've processed the first half of the array
+        if (k > median_pos) break;
+    }
+
+    double median;
+    if (max % 2 == 1) {
+        // If the total length is odd, the median is the middle element
+        median = (double)merged_array[median_pos];
+    } else {
+        // If the total length is even, the median is the average of the two middle elements
+        median = (double)(merged_array[median_pos - 1] + merged_array[median_pos]) / 2;
+    }
+
+    free(merged_array);  // Free the allocated memory
+    return median;
+}
