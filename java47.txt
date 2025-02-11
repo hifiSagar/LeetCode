@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int* getMaximumXor(const int * const nums, const int numsLen, const int maxBit, int * const pRetsLen) {
+    // Initialize the return length
+    *pRetsLen = numsLen;
+    // Allocate memory for the result array
+    int * const rets = (int *)malloc(sizeof(int) * *pRetsLen);
+    
+    // Ensure memory allocation was successful
+    if (!rets) {
+        // Memory allocation failed
+        return NULL;
+    }
+
+    // XOR the entire array to get the initial prefix XOR
+    int prefixXor = 0;
+    for (int i = 0; i < numsLen; i++) {
+        prefixXor ^= nums[i];
+    }
+
+    // Create a mask with the most significant bits set (based on maxBit)
+    const int mask = (1 << maxBit) - 1;
+    
+    // Compute the results
+    for (int i = 0; i < numsLen; i++) {
+        rets[i] = prefixXor ^ mask; // The result is the XOR with the mask
+        prefixXor ^= nums[numsLen - 1 - i]; // Update prefixXor to simulate removal of the current number from the prefix
+    }
+
+    return rets;
+}
