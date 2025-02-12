@@ -1,0 +1,35 @@
+int64_t matrixSumQueries(int n, int** queries, int queriesSize, int* queriesColSize){
+    bool rowVisited[n];
+    memset( &rowVisited, 0, sizeof (rowVisited) );
+    int rowLeft = n;
+
+    bool colVisited[n];
+    memset( &colVisited, 0, sizeof (colVisited) );
+    int colLeft = n;
+
+    int64_t total = 0;
+
+    for (int i = queriesSize - 1; i >= 0; i -= 1){
+        if (0 == queries[i][0]){
+            if (rowVisited[ queries[i][1] ]){
+                continue;
+            }
+
+            rowVisited[ queries[i][1] ] = true;
+            rowLeft -= 1;
+
+            total += (int64_t)queries[i][2] * (int64_t)colLeft;
+        }else {
+            if (colVisited[ queries[i][1] ]){
+                continue;
+            }
+
+            colVisited[ queries[i][1] ] = true;
+            colLeft -= 1;
+
+            total += (int64_t)queries[i][2] * (int64_t)rowLeft;
+        }
+    }
+
+    return total;
+}
