@@ -1,0 +1,27 @@
+int numComponents(struct ListNode* head, int* nums, int numsSize) {
+    // Create a set to store the values in nums for quick lookup
+    bool valueSet[10001] = { false }; // Adjust size according to constraints
+    for (int i = 0; i < numsSize; i++) {
+        valueSet[nums[i]] = true;
+    }
+    
+    int components = 0;
+    bool inComponent = false;
+
+    struct ListNode* current = head;
+    while (current != NULL) {
+        if (valueSet[current->val]) {
+            // If we find a value in nums
+            if (!inComponent) {
+                // Start a new component
+                components++;
+                inComponent = true;
+            }
+        } else {
+            // If we find a value not in nums, we end the current component
+            inComponent = false;
+        }
+        current = current->next;
+    }
+    return components;
+}
