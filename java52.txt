@@ -1,0 +1,37 @@
+struct ListNode* removeNodes(struct ListNode* head){
+    struct ListNode *tmp, *rvr;
+    tmp=NULL;
+    rvr=head; 
+ 
+    while (head!=NULL)
+    {
+        head=head->next;
+        rvr->next=tmp;
+        tmp=rvr;
+        rvr=head;
+    }
+    rvr=tmp;
+
+    int a=tmp->val;
+    while (tmp->next!=NULL)
+    {
+        if (tmp->next->val>=a) 
+        {  
+            a=tmp->next->val;
+            tmp=tmp->next;
+        }
+        else tmp->next=tmp->next->next;
+    }
+    head=rvr;
+    tmp=NULL;
+
+    while (rvr!=NULL)
+    {
+        rvr=rvr->next;
+        head->next=tmp;
+        tmp=head;
+        head=rvr;
+    }
+    return tmp;
+}
+
