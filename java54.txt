@@ -1,0 +1,44 @@
+int comp(const void* a,const void* b) {
+      return *(int*)a - *(int*)b;
+}
+void inback(struct ListNode** head, struct ListNode** tail,int val){
+    struct ListNode* temp=(struct ListNode*)malloc(sizeof(struct ListNode));
+    temp->val=val;
+    temp->next=NULL;
+    if(*head==NULL){
+        *head=temp;
+        *tail=temp;
+    }
+    else{
+        (*tail)->next=temp;
+        *tail=temp;
+    }
+}
+struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {
+    int len=listsSize;
+    int tc=0;
+    for(int i=0;i<len;i++){
+        struct ListNode* temp=lists[i];
+        while(temp!=NULL){
+            tc+=1;
+            temp=temp->next;
+        }
+    }
+    int* arr=(int*)malloc(tc*sizeof(int));
+    int cc=0;
+    for(int i=0;i<len;i++){
+        struct ListNode* temp=lists[i];
+        while(temp!=NULL){
+            arr[cc]=temp->val;
+            cc+=1;
+            temp=temp->next;
+        }
+    }
+    qsort(arr,tc,sizeof(int),comp);
+    struct ListNode*head=NULL,*tail=NULL;
+    for(int i=0;i<tc;i++){
+        inback(&head,&tail,arr[i]);
+    }
+    return head;
+    
+}
