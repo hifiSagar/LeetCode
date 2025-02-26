@@ -1,0 +1,17 @@
+struct TreeNode* pruneTree(struct TreeNode* root) 
+{
+   if(root)
+   {
+        root->left = pruneTree(root->left);
+        root->right = pruneTree(root->right);
+
+        if(!root->left && !root->right && (root->val != 1)) //Leaf node with 0 value
+        {
+            free(root);
+            return NULL;
+        }
+
+        return root;
+   }
+   return NULL; 
+}
