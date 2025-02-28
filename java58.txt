@@ -1,0 +1,48 @@
+#define MAX_SIZE 1000
+
+typedef struct {
+    struct TreeNode* data[MAX_SIZE];
+    int front;
+    int rear;
+} RingBuffer;
+
+void append(RingBuffer* buffer, struct TreeNode* node) {   
+    if (buffer->front == -1) {
+        buffer->front = 0;
+        buffer->rear = 0;
+    } 
+    else if (buffer->rear == MAX_SIZE - 1)  buffer->rear = 0;
+    else buffer->rear++;
+
+    buffer->data[buffer->rear] = node;
+}
+
+struct TreeNode* popleft(RingBuffer* buffer) {   
+    struct TreeNode* node = buffer->data[buffer->front];
+    if (buffer->front == buffer->rear) {
+        buffer->front = -1;
+        buffer->rear = -1;
+    } 
+    else if (buffer->front == MAX_SIZE - 1)  buffer->front = 0;
+    else     buffer->front++;
+
+    return node;
+}
+
+int findBottomLeftValue(struct TreeNode* root) {
+    if (root == NULL)  return -1;
+    RingBuffer buffer = {
+        .front = -1,
+        .rear = -1
+    };
+    append(&buffer, root);
+
+    struct TreeNode* node;
+    while( buffer.front != -1 ){
+        node = popleft(&buffer);
+        if (node->right) append(&buffer, node->right);
+        if (node->left)  append(&buffer, node->left);
+    }
+
+    return node->val;
+}
