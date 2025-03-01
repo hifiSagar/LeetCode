@@ -1,0 +1,57 @@
+typedef struct Info
+{
+    int rmax;
+    int lmin;
+    int sum;
+    bool isbst;
+} Info;
+
+static inline int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+
+static inline int min(int a, int b)
+{
+    return a < b ? a : b;
+}
+
+Info explore(struct TreeNode* node, int *ans)
+{
+    if(node == NULL)
+    {
+        Info info = {INT32_MIN, INT32_MAX, 0, true};
+        return info;
+    }
+
+    Info left = explore(node->left, ans);
+    Info right = explore(node->right, ans);
+
+    Info currNode;
+
+    currNode.sum = left.sum + right.sum + node->val;
+
+    currNode.rmax = max(node->val, right.rmax);
+    currNode.lmin = min(node->val, left.lmin);
+
+    if(left.isbst && right.isbst && (node->val > left.rmax && node->val < right.lmin))
+    {
+        currNode.isbst= true;
+    }
+    else{
+       currNode.isbst = false;
+    }
+
+    if(currNode.isbst){
+        printf("%d %d\n", *ans, currNode.sum);
+        *ans = max(*ans, currNode.sum);
+    }
+
+    return currNode;
+}
+
+int maxSumBST(struct TreeNode* root) {
+    int maxSum = 0;
+    Info temp = explore(root, &maxSum);
+    return maxSum;
+}
