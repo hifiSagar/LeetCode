@@ -1,0 +1,12 @@
+int dfs(struct TreeNode *node, int parent, int gParent) {
+    if(!node) return 0;
+    
+    int left = dfs(node->left, node->val, parent);
+    int right = dfs(node->right, node->val, parent);
+    
+    return left + right + (gParent % 2 ? 0 : node->val);
+}
+
+int sumEvenGrandparent(struct TreeNode* root){    
+    return dfs(root, -1, -1);    
+}
