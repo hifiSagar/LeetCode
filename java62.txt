@@ -1,0 +1,15 @@
+int kthGrammar(int n, int k){
+    int s = 1;
+    while (s < k) {
+        s *= 2;
+    }
+    bool flipped = false;
+    while (s > 1) {
+        s /= 2;
+        if (k > s) {
+            flipped = !flipped;
+            k -= s;
+        }
+    }
+    return flipped ? 1 : 0;
+
