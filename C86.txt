@@ -1,0 +1,34 @@
+int search(int* a, int numsSize, int target) {
+    int st=0, end = numsSize-1,mid;
+    while(st<=end)
+    {
+        mid=st+(end-st)/2;
+        if(a[mid]==target)
+        {
+            return mid;
+        }
+        if(a[st]<=a[mid])
+        {
+            if(a[st]<=target && target<=a[mid])
+            {
+                end=mid-1;
+            }
+            else
+            {
+                st=mid+1;
+            }
+        }
+        else
+        {
+            if(a[mid]<=target && target<=a[end])
+            {
+                st=mid+1;
+            }
+            else
+            {
+                end=mid-1;
+            }
+        }
+    }
+    return -1;
+}
